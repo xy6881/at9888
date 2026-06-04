@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>載入中...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        body {
+            background-color: #080d1a;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 80%;
+            max-width: 280px;
+        }
+
+        .logo-area {
+            margin-bottom: 35px;
+        }
+
+        .pixel-logo {
+            width: 140px;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+                filter: drop-shadow(0 5px 15px rgba(0, 242, 254, 0.4));
+            }
+            50% {
+                transform: translateY(-12px);
+                filter: drop-shadow(0 15px 25px rgba(176, 38, 255, 0.5));
+            }
+            100% {
+                transform: translateY(0px);
+                filter: drop-shadow(0 5px 15px rgba(0, 242, 254, 0.4));
+            }
+        }
+
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #00f2fe;
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.25) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.25) 50%,
+                rgba(255, 255, 255, 0.25) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 20px 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+            animation: move-stripes 1s linear infinite;
+        }
+
+        @keyframes move-stripes {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 20px 0;
+            }
+        }
+
+        .countdown-timer {
+            font-size: 0.9rem;
+            color: #8892b0;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .timer-seconds {
+            font-weight: bold;
+            color: #f5c518;
+            margin: 0 2px;
+        }
+
+        .slogan-text {
+            font-size: 0.95rem;
+            color: #00f2fe;
+            letter-spacing: 1px;
+            height: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="logo-area">
+            <img src="./assets/images/10001.webp" alt="AT99 Logo" class="pixel-logo">
+        </div>
+        <div class="slogan-text" id="slogan">對接真人視訊中...</div>
+        
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="countdown-timer">
+            將於 <span class="timer-seconds" id="timer">5.5</span> 秒後完成跳轉
+        </div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            targetUrl: 'https://m.at99tw.net/Register?p=KUN01',
+            pixelEventName: 'CompleteRegistration',
+            gaId: 'G-W6E43HGMKE', // Google Analytics 追蹤 ID
+            fbId: '1341471834143072' // Facebook Pixel 追蹤 ID
+        };
+
+        // --- 追蹤代碼初始化 (GA & Pixel) ---
+        if (CONFIG.gaId && CONFIG.gaId !== 'G-XXXXXXXXXX') {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.gaId;
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', CONFIG.gaId);
+        }
+        if (CONFIG.fbId && CONFIG.fbId !== 'XXXXXXXXXXXXXXX') {
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return; n = f.fbq = function () {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+                n.queue = []; t = b.createElement(e); t.async = !0;
+                t.src = v; s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', CONFIG.fbId);
+            fbq('track', 'PageView');
+        }
+        // ----------------------------------
+
+        let redirected = false;
+
+        function doRedirect(source) {
+            if (redirected) return;
+            redirected = true;
+
+            // --- FB Pixel (Meta Pixel) ---
+            if (typeof fbq === 'function') {
+                fbq('track', CONFIG.pixelEventName);
+            }
+
+            // --- GA Events ---
+            if (typeof gtag === 'function') {
+                gtag('event', 'redirect_' + source, {
+                    'event_category': 'RedirectPage',
+                    'event_label': document.title
+                });
+            }
+
+            window.location.href = CONFIG.targetUrl;
+        }
+
+        // 點擊任何地方立即跳轉
+        document.body.addEventListener('click', function () {
+            doRedirect('click_body');
+        });
+
+        // 5.5秒倒數與進度條動畫
+        const duration = 5500; // 5.5 秒
+        const startTime = Date.now();
+        const progressBar = document.getElementById('progressBar');
+        const timerEl = document.getElementById('timer');
+        const sloganEl = document.getElementById('slogan');
+
+        // 載入標語陣列 (仿照國外專業娛樂 APP)
+        const slogans = [
+            "對接真人視訊中...",
+            "串接棋牌遊戲中...",
+            "加載電子遊藝中...",
+            "配置體育賽事中...",
+            "數據通道同步中..."
+        ];
+
+        function updateTimer() {
+            if (redirected) return;
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // 緩和曲線：先快、後慢、再快 (f(t) = t + 0.15 * sin(2 * pi * t))
+            const easedProgress = Math.min(progress + 0.15 * Math.sin(2 * Math.PI * progress), 1);
+            
+            // 更新橫向進度條
+            if (progressBar) {
+                progressBar.style.width = (easedProgress * 100) + '%';
+            }
+
+            // 更新動態載入標語
+            if (sloganEl) {
+                const sloganIndex = Math.min(Math.floor(progress * slogans.length), slogans.length - 1);
+                sloganEl.textContent = slogans[sloganIndex];
+            }
+            
+            const remaining = Math.max((duration - elapsed) / 1000, 0);
+            if (timerEl) timerEl.textContent = remaining.toFixed(1);
+
+            if (progress < 1) {
+                requestAnimationFrame(updateTimer);
+            } else {
+                doRedirect('auto_timer');
+            }
+        }
+
+        requestAnimationFrame(updateTimer);
+    </script>
+</body>
+
+</html>
