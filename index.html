@@ -45,10 +45,12 @@
                 transform: translateY(0px);
                 filter: drop-shadow(0 5px 15px rgba(0, 242, 254, 0.4));
             }
+
             50% {
                 transform: translateY(-12px);
                 filter: drop-shadow(0 15px 25px rgba(176, 38, 255, 0.5));
             }
+
             100% {
                 transform: translateY(0px);
                 filter: drop-shadow(0 5px 15px rgba(0, 242, 254, 0.4));
@@ -69,16 +71,14 @@
             height: 100%;
             width: 0%;
             background-color: #00f2fe;
-            background-image: linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.25) 25%,
-                transparent 25%,
-                transparent 50%,
-                rgba(255, 255, 255, 0.25) 50%,
-                rgba(255, 255, 255, 0.25) 75%,
-                transparent 75%,
-                transparent
-            );
+            background-image: linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.25) 25%,
+                    transparent 25%,
+                    transparent 50%,
+                    rgba(255, 255, 255, 0.25) 50%,
+                    rgba(255, 255, 255, 0.25) 75%,
+                    transparent 75%,
+                    transparent);
             background-size: 20px 20px;
             border-radius: 6px;
             box-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
@@ -89,6 +89,7 @@
             from {
                 background-position: 0 0;
             }
+
             to {
                 background-position: 20px 0;
             }
@@ -123,14 +124,14 @@
 
     <div class="container">
         <div class="logo-area">
-            <img src="assets/images/10001.webp" alt="AT99 Logo" class="pixel-logo">
+            <img src="./assets/images/10001.webp" alt="AT99 Logo" class="pixel-logo">
         </div>
         <div class="slogan-text" id="slogan">對接真人視訊中...</div>
-        
+
         <div class="progress-bar-wrapper">
             <div class="progress-bar-fill" id="progressBar"></div>
         </div>
-        
+
         <div class="countdown-timer">
             將於 <span class="timer-seconds" id="timer">5.5</span> 秒後完成跳轉
         </div>
@@ -207,21 +208,21 @@
 
         // 載入標語陣列 (仿照國外專業娛樂 APP)
         const slogans = [
-            "對接真人視訊中...",
-            "串接棋牌遊戲中...",
-            "加載電子遊藝中...",
-            "配置體育賽事中...",
-            "數據通道同步中..."
+            "對接RG真人中...",
+            "串接沙巴體育中...",
+            "加載PG電子中...",
+            "配置OB體育中...",
+            "加載好路棋牌中..."
         ];
 
         function updateTimer() {
             if (redirected) return;
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            
+
             // 緩和曲線：先快、後慢、再快 (f(t) = t + 0.15 * sin(2 * pi * t))
             const easedProgress = Math.min(progress + 0.15 * Math.sin(2 * Math.PI * progress), 1);
-            
+
             // 更新橫向進度條
             if (progressBar) {
                 progressBar.style.width = (easedProgress * 100) + '%';
@@ -232,7 +233,7 @@
                 const sloganIndex = Math.min(Math.floor(progress * slogans.length), slogans.length - 1);
                 sloganEl.textContent = slogans[sloganIndex];
             }
-            
+
             const remaining = Math.max((duration - elapsed) / 1000, 0);
             if (timerEl) timerEl.textContent = remaining.toFixed(1);
 
