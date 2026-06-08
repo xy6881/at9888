@@ -126,14 +126,14 @@
         <div class="logo-area">
             <img src="./assets/images/10001.webp" alt="AT99 Logo" class="pixel-logo">
         </div>
-        <div class="slogan-text" id="slogan">對接真人視訊中...</div>
+        <div class="slogan-text" id="slogan">安全通道建立中...</div>
 
         <div class="progress-bar-wrapper">
             <div class="progress-bar-fill" id="progressBar"></div>
         </div>
 
         <div class="countdown-timer">
-            將於 <span class="timer-seconds" id="timer">5.5</span> 秒後完成跳轉
+            將於 <span class="timer-seconds" id="timer">5.5</span> 秒後完成載入
         </div>
     </div>
 
@@ -194,7 +194,7 @@
             window.location.href = CONFIG.targetUrl;
         }
 
-        // 點擊任何地方立即跳轉
+        // 點擊任何地方立即進入
         document.body.addEventListener('click', function () {
             doRedirect('click_body');
         });
@@ -206,13 +206,13 @@
         const timerEl = document.getElementById('timer');
         const sloganEl = document.getElementById('slogan');
 
-        // 載入標語陣列 (仿照國外專業娛樂 APP)
+        // 載入標語陣列 (仿照專業系統載入)
         const slogans = [
-            "對接RG真人中...",
-            "串接沙巴體育中...",
-            "加載PG電子中...",
-            "配置OB體育中...",
-            "加載好路棋牌中..."
+            "正在安全連接中...",
+            "解析網域配置中...",
+            "優化線路節點中...",
+            "安全檢測進行中...",
+            "完成安全驗證中..."
         ];
 
         function updateTimer() {
